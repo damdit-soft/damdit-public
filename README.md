@@ -2,7 +2,7 @@
 
 Damdit is a desktop app for auditing websites: it finds technical issues, shows the evidence behind each finding, and helps you decide what to fix first. It runs on your computer and never edits the website it audits. Website: [damdit.com](https://damdit.com) · Documentation: [docs.damdit.com](https://docs.damdit.com).
 
-The first release is for Mac with Apple silicon (macOS 14 or later). Windows and Linux follow later this year; see the [roadmap](ROADMAP.md).
+Damdit runs on a Mac with Apple silicon (macOS 14 or later). What we are working on is in the [roadmap](ROADMAP.md).
 
 This repository is the public home for:
 
