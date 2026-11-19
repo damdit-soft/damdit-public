@@ -11,4 +11,4 @@ Roadmap issues explain the user problem and expected outcome. Internal tasks, cu
 
 Dates are shown only when they are real commitments. Absence of a date does not imply low priority, and a roadmap item is not a promise until it ships.
 
-The first items are open issues with the `roadmap: planned` label: the Windows app and the Linux app. Ideas we are still learning about carry `roadmap: exploring`.
+Planned items are open issues with the `roadmap: planned` label. Ideas we are still learning about carry `roadmap: exploring`.
