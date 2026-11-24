@@ -5,7 +5,7 @@ Damdit audits websites: it finds technical issues, shows the evidence behind eac
 It comes in two forms with one licence:
 
 - **Damdit for Mac**, the app, for a Mac with Apple silicon (macOS 14 or later): [download](https://damdit.com/download/).
-- **Damdit CLI**, the same audit as a command, in Docker on a Mac, Linux or a server: `curl -fsSL https://download.damdit.com/cli/install.sh | sh` ([more](https://damdit.com/cli/)).
+- **Damdit CLI**, the same audit as a command, in Docker on a Mac, Linux or a server: [install it](https://docs.damdit.com/cli/install/) ([more](https://damdit.com/cli/)).
 
 What we are working on is in the [roadmap](ROADMAP.md).
 
