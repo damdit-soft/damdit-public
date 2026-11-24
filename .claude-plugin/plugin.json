@@ -10,6 +10,7 @@
   },
   "homepage": "https://docs.damdit.com",
   "repository": "https://github.com/damdit-soft/damdit-public",
+  "license": "MIT",
   "keywords": [
     "website audit",
     "seo",

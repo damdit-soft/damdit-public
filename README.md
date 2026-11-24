@@ -24,7 +24,7 @@ This repository also holds Damdit's skill for AI agents ([`skills/damdit`](skill
 - **Other agents** that read skills (Codex, Cursor, OpenCode and more): `npx skills add damdit-soft/damdit-public`.
 - **The MCP server** comes with Damdit itself: `damdit-cli mcp` for Damdit CLI, `damdit mcp` for the app. For Claude Code: `claude mcp add damdit-cli -- damdit-cli mcp`. Setup for each agent: [damdit.com/for](https://damdit.com/for/).
 
-The skill is copied here from the app at each release; its version is the Damdit version it describes.
+The skill is copied here from the app at each release; its version is the Damdit version it describes. The skill is under the [MIT licence](skills/damdit/LICENSE); Damdit itself and the rest of this repository are not.
 
 This repository is the public home for:
 
