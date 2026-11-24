@@ -24,6 +24,16 @@ This repository also holds Damdit's skill for AI agents ([`skills/damdit`](skill
 - **Other agents** that read skills (Codex, Cursor, OpenCode and more): `npx skills add damdit-soft/damdit-public`.
 - **The MCP server** comes with Damdit itself: `damdit-cli mcp` for Damdit CLI, `damdit mcp` for the app. For Claude Code: `claude mcp add damdit-cli -- damdit-cli mcp`. Setup for each agent: [damdit.com/for](https://damdit.com/for/).
 
+### What leaves your machine
+
+The skill sends nothing itself: it runs the `damdit` or `damdit-cli` command on your computer, and audits are saved there. Damdit then talks to:
+
+- **the website you audit**, to load its pages;
+- **damdit.com** (`api.damdit.com`), to check your licence: the key or your sign-in, never the audited website or its results;
+- only when you turn them on, with your own credentials: **Google PageSpeed Insights** (the page addresses it measures), **Google Search Console** and the **Webflow API** (your site's data).
+
+Nothing about the audited website is sent to Damdit. Details: [privacy policy](https://damdit.com/privacy/).
+
 The skill is copied here from the app at each release; its version is the Damdit version it describes. The skill is under the [MIT licence](skills/damdit/LICENSE); Damdit itself and the rest of this repository are not.
 
 This repository is the public home for:
