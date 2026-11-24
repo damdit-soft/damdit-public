@@ -10,7 +10,7 @@ Damdit audits websites. It runs one fixed Full Audit of a website and records ev
 Damdit comes in two forms with the same commands:
 
 - **Damdit for Mac**, the app. Its command is `damdit`. It talks to the running app and works with the window closed as long as Damdit Runner, the part of Damdit that runs in the background, is on. If `damdit` is not on the PATH, the user can install it in Damdit → Settings → AI Tools → Command Line.
-- **Damdit CLI**, the same audit in Docker on a Mac, Linux or a server. Its command is `damdit-cli`. It needs Docker running and a key in `DAMDIT_CI_KEY` (from the user's account at damdit.com/account). The user installs it with `curl -fsSL https://download.damdit.com/cli/install.sh | sh`.
+- **Damdit CLI**, the same audit in Docker on a Mac, Linux or a server. Its command is `damdit-cli`. It needs Docker running and a key in `DAMDIT_CI_KEY` (from the user's account at damdit.com/account). If it isn't installed, point the user to https://docs.damdit.com/cli/install/ and let them install it themselves; don't run an installer for them.
 
 Use the one that is installed: check with `command -v damdit-cli` and `command -v damdit`. The commands below are written as `damdit`; with Damdit CLI type `damdit-cli` instead. If both are installed, ask the user which Damdit holds their projects: the two keep separate projects and audits.
 
