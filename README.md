@@ -34,7 +34,7 @@ The skill sends nothing itself: it runs the `damdit` or `damdit-cli` command on 
 
 Nothing about the audited website is sent to Damdit. Details: [privacy policy](https://damdit.com/privacy/).
 
-The skill is copied here from the app at each release; its version is the Damdit version it describes. The skill is under the [MIT licence](skills/damdit/LICENSE); Damdit itself and the rest of this repository are not.
+The skill is copied here from the app at each release; its version is the Damdit version it describes. The files in this repository, the skill among them, are under the [MIT licence](LICENSE). Damdit for Mac and Damdit CLI themselves are proprietary and are not in this repository.
 
 This repository is the public home for:
 
