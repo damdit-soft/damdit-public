@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "damdit",
+  "description": "Damdit's skill for AI agents: website audits with the evidence behind every issue.",
+  "owner": {
+    "name": "Damdit",
+    "email": "support@damdit.com"
+  },
+  "plugins": [
+    {
+      "name": "damdit",
+      "source": "./",
+      "description": "Run and explain Damdit website audits from your agent. Needs Damdit for Mac or Damdit CLI.",
+      "version": "27.0.0",
+      "author": {
+        "name": "Damdit"
+      },
+      "homepage": "https://docs.damdit.com",
+      "category": "development"
+    }
+  ]
+}
