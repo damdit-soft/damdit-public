@@ -35,7 +35,7 @@ Before you change anything, know the state you start from.
 
 Make the smallest change that removes the cause, on the element and page the audit named. Don't fix issues nobody asked about; report them as out of scope.
 
-A site running on this computer can be checked once before the deploy with `damdit-cli check http://localhost:<port>`. It answers only what the page itself decides. It is a quick look, not the verification.
+A site running on this computer can be checked once before the deploy: `damdit check http://localhost:<port>` with Damdit for Mac, or `damdit-cli check …` with Damdit CLI on Linux (in Docker on a Mac the container can't reach the computer's localhost). It answers only what the page itself decides. It is a quick look, not the verification.
 
 ## 3. Verify on the deployed site
 
