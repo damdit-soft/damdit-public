@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "damdit-workflow",
+  "version": "1.0.0",
+  "description": "Two skills for agents that build software: shape an idea into a bounded assignment, then implement it and hand it off with evidence for every acceptance criterion. They work without Damdit.",
+  "author": {
+    "name": "Damdit",
+    "email": "support@damdit.com",
+    "url": "https://damdit.com"
+  },
+  "homepage": "https://github.com/damdit-soft/damdit-public/tree/main/workflow",
+  "repository": "https://github.com/damdit-soft/damdit-public",
+  "license": "MIT",
+  "keywords": ["workflow", "verification", "acceptance criteria", "handoff", "shape up"]
+}

@@ -24,6 +24,19 @@ This repository also holds Damdit's skill for AI agents ([`skills/damdit`](skill
 - **Other agents** that read skills (Codex, Cursor, OpenCode and more): `npx skills add damdit-soft/damdit-public`.
 - **The MCP server** comes with Damdit itself: `damdit-cli mcp` for Damdit CLI, `damdit mcp` for the app. For Claude Code: `claude mcp add damdit-cli -- damdit-cli mcp`. Setup for each agent: [damdit.com/for](https://damdit.com/for/).
 
+### Verified website changes
+
+[`skills/verified-website-change`](skills/verified-website-change/SKILL.md) comes with the same plugin. When your agent builds, changes or fixes a website, it reads the audit before the change, audits the deployed site after it and reports by the comparison: fixed only when the audit says Resolved, not verified when it says Inconclusive. For an agent that reads only `AGENTS.md`, the skill has a block to paste there.
+
+### A workflow that hands off with evidence
+
+Two more skills live in [`workflow/`](workflow/) as a plugin of their own, `damdit-workflow`. They are public versions of the skills Damdit is built with, and they work without Damdit:
+
+- [`implementation-shaping`](workflow/skills/implementation-shaping/SKILL.md) turns an idea or a brief into a bounded assignment another agent can implement.
+- [`engineering-orchestrator`](workflow/skills/engineering-orchestrator/SKILL.md) implements it and hands it off with evidence for every acceptance criterion: `complete`, `unverified`, `needs decision` or `blocked`.
+
+In Claude Code: `/plugin install damdit-workflow --marketplace damdit-soft/damdit-public`. They are separate from the `damdit` plugin on purpose: they take part in every implementation task, not only in website audits.
+
 ### What leaves your machine
 
 The skill sends nothing itself: it runs the `damdit` or `damdit-cli` command on your computer, and audits are saved there. Damdit then talks to:

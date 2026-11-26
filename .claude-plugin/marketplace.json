@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "damdit",
-  "description": "Damdit's skill for AI agents: website audits with the evidence behind every issue.",
+  "description": "Damdit's skills for AI agents: website audits with the evidence behind every issue, and a workflow that hands work off with evidence.",
   "owner": {
     "name": "Damdit",
     "email": "support@damdit.com"
@@ -16,6 +16,17 @@
         "name": "Damdit"
       },
       "homepage": "https://docs.damdit.com",
+      "category": "development"
+    },
+    {
+      "name": "damdit-workflow",
+      "source": "./workflow",
+      "description": "Shape an idea into a bounded assignment, then implement it and hand it off with evidence for every acceptance criterion. Works without Damdit.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Damdit"
+      },
+      "homepage": "https://github.com/damdit-soft/damdit-public/tree/main/workflow",
       "category": "development"
     }
   ]
