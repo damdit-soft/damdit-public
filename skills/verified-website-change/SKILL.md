@@ -1,6 +1,6 @@
 ---
 name: verified-website-change
-description: Verify a change to a website with Damdit audits before calling it done. Use when an agent builds, changes or fixes a website (code in a repository, Webflow, a CMS) and the result must be confirmed on the rendered site, not from the code. Needs the `damdit` skill and Damdit CLI or Damdit for Mac.
+description: Verify a change to a website with Damdit audits before calling it done. Use when you build, change or fix a website (code in a repository, Webflow, a CMS), when the user asks to verify a fix after the deploy or to check that nothing broke on the site, or wants a verification step in their workflow. The result is confirmed on the rendered site, not from the code. Needs the `damdit` skill and Damdit CLI or Damdit for Mac.
 ---
 
 # Verified website change
