@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "damdit-cli": { "command": "damdit-cli", "args": ["mcp"] }
+  }
+}

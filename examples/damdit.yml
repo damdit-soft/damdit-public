@@ -1,0 +1,6 @@
+# The websites `damdit-cli ci run` audits. Keys and passwords come from environment variables.
+sites:
+  - name: production
+    url: https://example.com
+    failOn: [new, reappeared]
+    reports: [client.pdf, developer.html]
