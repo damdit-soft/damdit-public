@@ -30,6 +30,7 @@ Before you change anything, know the state you start from.
 - Read the current audit with `damdit-cli summary <project>` and note when it ran. If it is older than the last deploy, or the user wants fresh results, run `damdit-cli audit <project>` (add `--target staging` when you work against staging).
 - Write down the audit's `runId`. Everything after is compared with it.
 - For a fix, read the issues you are asked to fix with `damdit-cli issues` and `damdit-cli occurrences`: each one names the page and the element. Those are your acceptance criteria.
+- Check the edition: `damdit-cli status` (over MCP, `get_status`). If it says `edition` `free`, follow "In the free version" below. In the free version only the newest audit can be read, so write down each issue's `ruleId`, pages and elements now: once the next audit runs, this one is locked.
 
 ## 2. Change
 
@@ -58,6 +59,16 @@ The verification is an audit of the address people will open.
 
 One more round is normal. Don't loop without a new idea: after two audits that still detect the issue, stop and report what you tried.
 
+### In the free version
+
+Damdit CLI without a key runs as the free version: audits of up to 20 pages, without comparing audits. `damdit-cli compare` and the other features it lacks answer `licence_feature` (exit 6). Then a fix cannot be verified, and you never call it fixed.
+
+- Still audit before and after the deploy, with the same steps.
+- Read the newest audit with `damdit-cli summary` and `damdit-cli issues --rule <ruleId>` for each rule you touched, and report what it shows: the rule still found, with its pages and elements, or not listed in this audit.
+- A rule not listed is not Resolved. Check the newest audit's Coverage: if the page you changed was not among the audited pages (the free version stops at 20), say the audit did not reach it.
+- The status for each issue is `unverified: comparing audits needs a Damdit licence or the 7-day trial`. Never write "fixed" or "Resolved".
+- Tell the user how to get the comparison: a key from damdit.com/account (a licence, or the 7-day trial without a card) in `DAMDIT_CI_KEY`. The audits already saved can then be compared with `damdit-cli compare`. Never ask them to paste the key into the conversation.
+
 ## 4. Handoff
 
 Report in the workflow's own handoff format, with these facts:
@@ -68,7 +79,7 @@ Report in the workflow's own handoff format, with these facts:
 - the score before and after, only as the comparison gives it;
 - what the audit did not cover (its Coverage limits).
 
-Status is `complete` only when every issue in scope is Resolved and nothing is New. With an Inconclusive issue or an audit you couldn't run, the status is `unverified`, with the reason.
+Status is `complete` only when every issue in scope is Resolved and nothing is New. With an Inconclusive issue or an audit you couldn't run, the status is `unverified`, with the reason. In the free version the status is always `unverified: comparing audits needs a Damdit licence or the 7-day trial`, with what the newest audit shows for each rule you touched.
 
 ## Without skills: a block for AGENTS.md
 
@@ -85,8 +96,10 @@ A change to what the website serves is done only when a Damdit audit of the depl
 4. Report per issue: Resolved, Still detected, Inconclusive, plus anything New or Reappeared.
 
 Say "fixed" only for Resolved. Inconclusive means not verified. If the audit can't run, say the change is unverified and why. Never judge the result from the code alone.
+
+If `damdit-cli status` says `edition` `free`, or `compare` answers `licence_feature`, this is the free version: report what the newest audit shows for each rule you touched and call the change "unverified: comparing audits needs a Damdit licence or the 7-day trial", never "fixed".
 ```
 
 ## In a pipeline
 
-The same check without an agent: `damdit-cli ci audit <url> --baseline previous.dpk --out current.dpk --fail-on new,reappeared` fails the build only when an issue is new or came back. Keep `current.dpk` as the next run's baseline.
+The same check without an agent: `damdit-cli ci audit <url> --baseline previous.dpk --out current.dpk --fail-on new,reappeared` fails the build only when an issue is new or came back. Keep `current.dpk` as the next run's baseline. The `ci` commands need a licence.

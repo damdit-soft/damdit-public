@@ -1,29 +1,56 @@
 # Damdit: a website audit CLI and MCP server for coding agents
 
-Damdit audits a website in a real browser on your machine: accessibility, broken links, SEO and indexing, metadata, security headers, forms and more. It records each issue with the page and the element, says what it could not check, and compares each audit with the one before. Your coding agent runs it over MCP or as a command, fixes what it found, and the next audit shows what is Resolved.
+Damdit audits a website in a real browser on your machine: accessibility, broken links, SEO and indexing, metadata, security headers, forms and more. It records each issue with the page and the element and says what it could not check. Your coding agent runs it over MCP or as a command and fixes what it found. With a licence, Damdit compares each audit with the one before, and the next audit shows what is Resolved.
 
-- **Local.** Pages are rendered in Chromium where Damdit runs. Nothing about the audited website is sent to Damdit.
+- **Local.** Pages are rendered in Chromium where Damdit runs. No address, page or finding of the audited website is sent to Damdit.
 - **Read-only.** Damdit never changes the website. The fixing stays with you and your agent.
 - **For any agent, and for pipelines.** An MCP server (`damdit-cli mcp`), a command line with JSON output and exit codes, skills, and a block for `AGENTS.md`. If your agent speaks MCP or can run a command, it can use Damdit, whichever model is behind it.
 
 Website: [damdit.com/cli](https://damdit.com/cli/) · Docs: [docs.damdit.com/cli](https://docs.damdit.com/cli/overview/) · Setup per agent: [damdit.com/for](https://damdit.com/for/) · For AI systems: [damdit.com/llms.txt](https://damdit.com/llms.txt) · 90-second video: [youtube.com/watch?v=rRrmYHdr_as](https://www.youtube.com/watch?v=rRrmYHdr_as)
 
-Current version: Damdit CLI 27.0.1, released 26 November 2026.
+Current version: Damdit CLI 27.1.0 (not released yet) [NEED: date].
 
 ## Quick start
 
-Damdit CLI needs Docker. It runs on a Mac, on Linux and on Windows inside WSL2.
+With Node.js 22.13 or later, on macOS, Linux or Windows x64. No Docker, no account and no key:
+
+```sh
+npx damdit-cli project create --name Example --production https://example.com/
+npx damdit-cli audit Example
+```
+
+The first audit downloads Chromium, about 180 MB. Without a key this is the free version.
+
+### Free version and licence
+
+| | Free version, no account | With a licence or the 7-day trial |
+|---|---|---|
+| Pages in one audit | Up to 20 | Up to 500 |
+| Issues with evidence, Coverage, Needs review | Yes | Yes |
+| Command line and MCP server | Yes | Yes |
+| Comparing audits: Resolved, New, Reappeared | No | Yes |
+| Reading older audits of a project | No, only the newest | Yes |
+| Reports, scheduled audits, the `ci` pipeline commands | No | Yes |
+| Webflow, PageSpeed Insights, Search Console | No | Yes |
+
+The free version tells you what is wrong on a site. It cannot verify a fix: that needs the comparison of the audit before and the audit after, and comparing audits needs a licence or the trial. A feature the free version doesn't have answers `licence_feature` (exit code 6), so an agent can tell you why instead of guessing.
+
+For the licence or the trial, sign in at [damdit.com/account](https://damdit.com/account) with your e-mail, start the 7-day trial (no card) and create a key there. Put it in `DAMDIT_CI_KEY`. The audits you saved in the free version stay, and with the key they can be compared. After the trial Damdit is €149 once, excluding VAT, with a year of updates; the version you have keeps working after that.
+
+### With Docker, for CI and servers
+
+The Docker image gives every run the same environment, and it is the recommended way for pipelines and servers. It runs on a Mac, on Linux and on Windows inside WSL2:
 
 ```sh
 curl -fsSL https://download.damdit.com/cli/install.sh | sh
-export DAMDIT_CI_KEY=…   # a key from damdit.com/account
+export DAMDIT_CI_KEY=…   # a key from damdit.com/account; without it, the free version
 damdit-cli project create --name Example --production https://example.com/
 damdit-cli audit Example
 ```
 
-No account yet? Sign in at [damdit.com/account](https://damdit.com/account) with your e-mail, start the 7-day trial (no card) and create a key there. After the trial Damdit is €149 once, excluding VAT, with a year of updates; the version you have keeps working after that.
+### What you get
 
-What an audit answers, in a terminal:
+What an audit answers, in a terminal (this one with a licence, so 31 pages):
 
 ```text
 staging — 2026-11-26T10:32:57Z
@@ -39,7 +66,7 @@ Not checked, or only in part:
   [medium] A public page is marked noindex — 1 occurrence on 1 page
 ```
 
-And after a fix, `damdit-cli compare`:
+And after a fix, with a licence, `damdit-cli compare`:
 
 ```text
 Changes: New 0, Resolved 1, Reappeared 0, Inconclusive 1  Still detected: 4
@@ -51,30 +78,42 @@ Through a pipe, into a file or to an agent the same commands print JSON.
 
 ## The MCP server
 
-`damdit-cli mcp` is an MCP server on standard input and output (stdio). The agent starts it on the same machine. Any MCP client that starts a server with a command can use it ([`examples/mcp.json`](examples/mcp.json)):
+`damdit-cli mcp` is an MCP server on standard input and output (stdio). The agent starts it on the same machine. Any MCP client that starts a server with a command can use it ([`examples/mcp-npx.json`](examples/mcp-npx.json)):
 
 ```json
 {
   "mcpServers": {
-    "damdit-cli": { "command": "damdit-cli", "args": ["mcp"] }
+    "damdit-cli": { "command": "npx", "args": ["-y", "damdit-cli", "mcp"] }
   }
 }
 ```
 
-The agent needs `DAMDIT_CI_KEY` in its environment to run audits, and Docker running. If it can't find `damdit-cli`, give the full path, for example `~/.local/bin/damdit-cli`.
+Some MCP clients on Windows need `cmd /c` in front ([`examples/mcp-npx-windows.json`](examples/mcp-npx-windows.json)):
 
-Where each agent keeps this, with the steps we ran on 25 November 2026:
+```json
+{
+  "mcpServers": {
+    "damdit-cli": { "command": "cmd", "args": ["/c", "npx", "-y", "damdit-cli", "mcp"] }
+  }
+}
+```
+
+With Damdit CLI installed for Docker, the command is `damdit-cli` itself ([`examples/mcp-docker.json`](examples/mcp-docker.json)); Docker must be running. If the agent can't find `damdit-cli`, give the full path, for example `~/.local/bin/damdit-cli`.
+
+Without a key the server runs as the free version, and it tells the agent so. To use the licensed features, the agent needs `DAMDIT_CI_KEY` in its environment.
+
+Where each agent keeps this. The steps on damdit.com/for were run on 25 November 2026 with the Docker launcher; with npm, they work with `npx -y damdit-cli mcp` in place of `damdit-cli mcp`. [NEED: run each row below with npx before release]
 
 | Agent | Add the server | Steps |
 |---|---|---|
-| Claude Code | `claude mcp add --transport stdio --scope user damdit-cli -- damdit-cli mcp` | [damdit.com/for/claude-code](https://damdit.com/for/claude-code/) |
-| Codex | `codex mcp add damdit-cli -- damdit-cli mcp` | [damdit.com/for/codex](https://damdit.com/for/codex/) |
+| Claude Code | `claude mcp add --transport stdio --scope user damdit-cli -- npx -y damdit-cli mcp` | [damdit.com/for/claude-code](https://damdit.com/for/claude-code/) |
+| Codex | `codex mcp add damdit-cli -- npx -y damdit-cli mcp` | [damdit.com/for/codex](https://damdit.com/for/codex/) |
 | Cursor | the block above in `~/.cursor/mcp.json` | [damdit.com/for/cursor](https://damdit.com/for/cursor/) |
 | GitHub Copilot | the block above in `.mcp.json` | [damdit.com/for/copilot](https://damdit.com/for/copilot/) |
 | Hermes | `mcp_servers` in `~/.hermes/config.yaml` | [damdit.com/for/hermes](https://damdit.com/for/hermes/) |
-| Mistral Vibe | `vibe mcp add damdit-cli --transport stdio --command damdit-cli --arg mcp` | [damdit.com/for/mistral-vibe](https://damdit.com/for/mistral-vibe/) |
+| Mistral Vibe | `vibe mcp add damdit-cli --transport stdio --command npx --arg -y --arg damdit-cli --arg mcp` | [damdit.com/for/mistral-vibe](https://damdit.com/for/mistral-vibe/) |
 | OpenClaw | `openclaw mcp set damdit-cli …` | [damdit.com/for/openclaw](https://damdit.com/for/openclaw/) |
-| OpenCode | `opencode mcp add damdit-cli --global -- damdit-cli mcp` | [damdit.com/for/opencode](https://damdit.com/for/opencode/) |
+| OpenCode | `opencode mcp add damdit-cli --global -- npx -y damdit-cli mcp` | [damdit.com/for/opencode](https://damdit.com/for/opencode/) |
 
 Another agent or a local model in a harness: use the block above, or skip MCP and let the agent run `damdit-cli` as a command.
 
@@ -90,11 +129,13 @@ Another agent or a local model in a harness: use the block above, or skip MCP an
 | `set_issue_status`, `set_schedule` | An issue's status; daily, weekly or monthly audits |
 | `create_report`, `list_reports`, `export_data` | Reports for the client, the developer or AI; all data |
 
+`get_status` says which edition runs: `free` or `licensed`. In the free version, `compare_issue_history`, `get_issue_history`, `create_report` and `set_schedule` answer `licence_feature`, and only a project's newest audit can be read.
+
 `DAMDIT_CLI_ACCESS` sets the most an agent may do: `read`, `audit` or `full`. Text copied from the audited website is marked as untrusted in every answer, so an agent treats it as data, not as instructions.
 
 ## What an audit checks
 
-One Full Audit, the same every time: 285 rules, up to 500 pages rendered in a browser and up to 5,000 addresses checked for links.
+One Full Audit, the same every time: 285 rules, up to 500 pages rendered in a browser (20 in the free version) and up to 5,000 addresses checked for links.
 
 - **Accessibility**, with axe-core in the rendered page
 - **Links and addresses**: broken links, redirects, HTTP errors
@@ -102,13 +143,13 @@ One Full Audit, the same every time: 285 rules, up to 500 pages rendered in a br
 - **Security**: HTTPS, security headers, what the site's own Content Security Policy blocks
 - **Assets and forms**: images, scripts, stylesheets and fonts that fail to load; form fields without names
 - **Runtime and AI readiness**, as signals that don't touch the score
-- Optional, with your own keys: **PageSpeed Insights**, **Google Search Console** and the **Webflow API**
+- Optional, with a licence and your own keys: **PageSpeed Insights**, **Google Search Console** and the **Webflow API**
 
 Three things it does with every result:
 
 - **Evidence.** Each issue names the page and the element, what was measured and what would pass.
 - **Coverage.** What the audit couldn't check is listed as not checked. It never counts as passed.
-- **Comparison.** The next audit says what is New, Resolved, Reappeared, Inconclusive or Still detected.
+- **Comparison**, with a licence. The next audit says what is New, Resolved, Reappeared, Inconclusive or Still detected.
 
 No automated audit finds every problem. Judgement calls go to Needs review and wait for a person.
 
@@ -123,7 +164,7 @@ A skill tells the agent how to use Damdit and what it may claim. Three ways to g
 | Skill | What it gives the agent |
 |---|---|
 | [`damdit`](skills/damdit/SKILL.md) | Damdit's commands, what the results mean, and the rule to say only what the evidence shows |
-| [`verified-website-change`](skills/verified-website-change/SKILL.md) | Four steps for every change to a website: read the audit before, change, audit the deployed site, report by the comparison. Fixed only when the audit says Resolved |
+| [`verified-website-change`](skills/verified-website-change/SKILL.md) | Four steps for every change to a website: read the audit before, change, audit the deployed site, report by the comparison. Fixed only when the audit says Resolved. In the free version the agent reports what the newest audit shows and calls the change unverified |
 
 ### A workflow that hands off with evidence
 
@@ -136,7 +177,7 @@ They are plain skill folders: copy them into your agent's skills directory, or i
 
 ## In a pipeline
 
-`damdit-cli ci audit` compares with the previous run and fails the build only when an issue is new or came back:
+`damdit-cli ci audit` compares with the previous run and fails the build only when an issue is new or came back. The `ci` commands need a licence (`DAMDIT_CI_KEY`):
 
 ```sh
 damdit-cli ci audit https://staging.example.com \
@@ -144,39 +185,42 @@ damdit-cli ci audit https://staging.example.com \
   --fail-on new,reappeared --report client.pdf
 ```
 
-For GitHub Actions, copy [`examples/github-actions/damdit.yml`](examples/github-actions/damdit.yml) and [`examples/damdit.yml`](examples/damdit.yml). Any CI that can start a Docker container works the same way. [Pipelines in the docs](https://docs.damdit.com/cli/pipelines/).
+For GitHub Actions, copy [`examples/github-actions/damdit.yml`](examples/github-actions/damdit.yml) and [`examples/damdit.yml`](examples/damdit.yml). Any CI that can start a Docker container works the same way; Docker is the recommended way in a pipeline. [Pipelines in the docs](https://docs.damdit.com/cli/pipelines/).
 
 ## On a server
 
-`damdit-cli serve` runs scheduled audits in the background and is the host your agents talk to: `damdit-cli schedule Example weekly`. [Serve in the docs](https://docs.damdit.com/cli/serve/).
+`damdit-cli serve` runs scheduled audits in the background and is the host your agents talk to: `damdit-cli schedule Example weekly`. Scheduled audits need a licence. On Windows, `serve` and `schedule` are not available yet; use Docker there. [Serve in the docs](https://docs.damdit.com/cli/serve/).
 
 ## Requirements, limits and price
 
 | | |
 |---|---|
-| System | Anywhere Docker runs: a Mac, Linux, Windows inside WSL2, a server, a CI runner |
-| Processor | 64-bit Intel or AMD (x86-64, also called amd64) or ARM (arm64: Apple silicon, Graviton, Ampere and similar). 32-bit processors are not supported |
-| Download | The image is about 1.1 GB; Docker downloads it once and again for each update |
-| Network | Access to the website you audit, and to damdit.com to check the key on each run |
-| Needs | Docker, and a key from your Damdit account in `DAMDIT_CI_KEY` |
-| One audit | Up to 500 pages rendered in a browser, up to 5,000 addresses checked for links |
+| System, npm | macOS, Linux or Windows x64, with Node.js 22.13 or later. On Windows, `serve` and `schedule` are not available yet |
+| System, Docker | Anywhere Docker runs: a Mac, Linux, Windows inside WSL2, a server, a CI runner |
+| Processor, Docker | 64-bit Intel or AMD (x86-64, also called amd64) or ARM (arm64: Apple silicon, Graviton, Ampere and similar). 32-bit processors are not supported |
+| Download | npm: Chromium, about 180 MB, on the first audit. Docker: the image is about 1.1 GB; Docker downloads it once and again for each update |
+| Chromium's sandbox | On Linux systems that refuse it (Ubuntu 23.10 and later, most containers), the npm package runs Chromium without the sandbox and says so. Audit websites you trust there, or use the Docker image |
+| Network | Access to the website you audit. With a key, access to damdit.com to check it on each run |
+| Needs | Nothing more for the free version. A key from your Damdit account in `DAMDIT_CI_KEY` for the licence or the trial |
+| One audit | Up to 20 pages in the free version; with a licence up to 500 pages rendered in a browser. Up to 5,000 addresses checked for links |
 | Trial | 7 days, every feature, no card. Start it at [damdit.com/account](https://damdit.com/account) |
 | Price | €149 once, excluding VAT, with every update for 12 months. After that the version you have keeps working; another year of updates is €70, only if you want it |
 | One licence | Damdit for Mac and Damdit CLI on two places at a time, in any combination |
 
 ## Damdit for Mac
 
-The same audit as an app, for a Mac with Apple silicon (macOS 14 or later), with the projects, issues, history and reports in a window: [download](https://damdit.com/download/). One licence covers the app and Damdit CLI on two places at a time.
+The same audit as an app, for a Mac with Apple silicon (macOS 14 or later), with the projects, issues, history and reports in a window: [download](https://damdit.com/download/). The app has no free version. One licence covers the app and Damdit CLI on two places at a time.
 
 ## What leaves your machine
 
 Pages are rendered on the computer that runs Damdit, and audits are saved there. The skills send nothing themselves: they run the `damdit` or `damdit-cli` command. Damdit talks to:
 
 - **the website you audit**, to load its pages;
-- **damdit.com** (`api.damdit.com`), to check your licence: the key or your sign-in, never the audited website or its results;
-- only when you turn them on, with your own credentials: **Google PageSpeed Insights** (the page addresses it measures), **Google Search Console** and the **Webflow API** (your site's data).
+- **damdit.com** (`api.damdit.com`), to check your licence when you have one: the key or your sign-in, never the audited website or its results;
+- in Damdit CLI's free version, one anonymous event per audit: the audit's score, how many issues it found per severity and area, how many modules ran, the hour it ended, the Damdit version, the operating system and its major version, whether it runs from npm or Docker, whether it is the first audit of this data folder and, against the audit before, the earlier score, the difference and a coarse interval. No address, no project, no identifier of you or your computer. `DAMDIT_TELEMETRY=0` or `DO_NOT_TRACK=1` turns it off. The licensed version sends none;
+- only when you turn them on, with a licence and your own credentials: **Google PageSpeed Insights** (the page addresses it measures), **Google Search Console** and the **Webflow API** (your site's data).
 
-Nothing about the audited website is sent to Damdit. Details: [privacy policy](https://damdit.com/privacy/).
+No address, page or finding of the audited website is sent to Damdit. Details: [privacy policy](https://damdit.com/privacy/).
 
 The skill is copied here from the app at each release; its version is the Damdit version it describes. The files in this repository, the skill among them, are under the [MIT licence](LICENSE). Damdit for Mac and Damdit CLI themselves are proprietary and are not in this repository.
 

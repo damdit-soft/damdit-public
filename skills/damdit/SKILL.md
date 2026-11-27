@@ -10,11 +10,11 @@ Damdit audits websites. It runs one fixed Full Audit of a website and records ev
 Damdit comes in two forms with the same commands:
 
 - **Damdit for Mac**, the app. Its command is `damdit`. It talks to the running app and works with the window closed as long as Damdit Runner, the part of Damdit that runs in the background, is on. If `damdit` is not on the PATH, the user can install it in Damdit → Settings → AI Tools → Command Line.
-- **Damdit CLI**, the same audit in Docker on a Mac, Linux or a server. Its command is `damdit-cli`. It needs Docker running and a key in `DAMDIT_CI_KEY` (from the user's account at damdit.com/account). If it isn't installed, point the user to https://docs.damdit.com/cli/install/ and let them install it themselves; don't run an installer for them.
+- **Damdit CLI**, the same audit on macOS, Linux or Windows x64 with Node.js (`npx damdit-cli …`, no Docker), or in Docker on a Mac, Linux or a server. Its command is `damdit-cli`. Without a key it runs as the free version: audits of up to 20 pages, without comparing audits, older audits, reports, schedules or the `ci` commands. A key in `DAMDIT_CI_KEY` (from the user's account at damdit.com/account, a licence or the 7-day trial) unlocks the rest. `damdit-cli status` says `edition` `free` or `licensed`. If it isn't installed, point the user to https://docs.damdit.com/cli/install/ and let them install it themselves; don't run an installer for them.
 
 Use the one that is installed: check with `command -v damdit-cli` and `command -v damdit`. The commands below are written as `damdit`; with Damdit CLI type `damdit-cli` instead. If both are installed, ask the user which Damdit holds their projects: the two keep separate projects and audits.
 
-This skill describes Damdit 27.0. If a command answers that it doesn't know a command or an option, the installed Damdit is older: run `damdit version`, tell the user, and use `damdit help` for what that version has.
+This skill describes Damdit 27.1. If a command answers that it doesn't know a command or an option, the installed Damdit is older: run `damdit version`, tell the user, and use `damdit help` for what that version has.
 
 ## Commands
 
@@ -73,16 +73,17 @@ Damdit CLI only:
 | 3 | Damdit Runner not available | `runner_unavailable`, `not_accepting_jobs`, `runner_updating`, `storage_migration_pending` |
 | 4 | Not found | `not_found`, `project_not_found`, `not_comparable` |
 | 5 | An audit of this project is already running | `audit_already_running` |
-| 6 | Not allowed | `licence_required`, `api_disabled`, `ai_audit_start_disabled`, `ai_issue_changes_disabled`, `review_required`, `not_permitted` |
+| 6 | Not allowed | `licence_required`, `licence_feature`, `api_disabled`, `ai_audit_start_disabled`, `ai_issue_changes_disabled`, `review_required`, `not_permitted` |
 | 7 | Nothing answers at the address of `damdit check` | `nothing_responds` |
 | 8 | The website blocked Damdit | `blocked`, `robots_disallowed` |
 
 What to do:
 
-- **Damdit CLI and Docker:** `damdit-cli: Docker is not running` means just that. Ask the user to start Docker (Docker Desktop, OrbStack, `colima start` or `systemctl start docker`).
+- **Damdit CLI in Docker:** `damdit-cli: Docker is not running` means just that. Ask the user to start Docker (Docker Desktop, OrbStack, `colima start` or `systemctl start docker`).
 - **3:** `runner_unavailable` means Damdit isn't running. Tell the user: open Damdit, and to use the command with Damdit closed, turn on Settings → General → Automatic Audits → Run audits in the background. For the other codes, Damdit is updating or busy; try once more a little later, then tell the user.
 - **6:** these are the user's settings and Damdit's rules. Explain them; never try to get around them.
-  - `licence_required` (or another `licence_…` code): starting audits needs an active Damdit licence. Reading saved audits still works. With Damdit CLI the message names `DAMDIT_CI_KEY`: the user creates a key at damdit.com/account and sets it in the environment. Never ask the user to paste the key into the conversation.
+  - `licence_required` (or another `licence_…` code): starting audits needs an active Damdit licence. Reading saved audits still works. With Damdit CLI the message names `DAMDIT_CI_KEY`: a key is set but was refused, or it is Damdit for Mac without a licence. The user creates a key at damdit.com/account and sets it in the environment. Never ask the user to paste the key into the conversation.
+  - `licence_feature`: Damdit CLI's free version doesn't include this (`details.feature`, for example comparing audits or older audits). It is a property of the version, not a failure: tell the user, and that a key from damdit.com/account in `DAMDIT_CI_KEY` (a licence or the 7-day trial) unlocks it. Without comparison, never call a fix verified.
   - `api_disabled`: AI tools are turned off in Damdit's settings. Only the user can turn them on.
   - `ai_audit_start_disabled`: AI tools may read audits but not start them. Offer to read the latest audit instead.
   - `ai_issue_changes_disabled`: AI tools may read issues but not change their status. Tell the user they can change it in the app, or turn on Settings → AI Tools → AI tools can change issues.
@@ -116,7 +117,7 @@ Run an audit only when the user asks for a new audit or fresh results. Each audi
 
 `damdit check <url>` audits a website running on the user's own computer — `localhost`, `*.localhost`, `127.0.0.1` or `[::1]`, any port — once, before it is deployed. Nothing is saved in Damdit: there is no project, history or issue status afterwards. Use it when the user asks to check their local site or dev server.
 
-- It needs no project and no approval in the app, but it does need a licence and the switch that lets AI tools start audits.
+- It needs no project and no approval in the app, but it does need the switch that lets AI tools start audits, and with Damdit for Mac a licence. Damdit CLI's free version checks up to 20 pages.
 - It checks what the page itself decides: accessibility, titles and metadata, headings, links, images, forms, structured data. What only the live host can answer (security headers, HTTPS and the domain, robots.txt, the sitemap, PageSpeed) is listed in `notApplicable`. Never report those as passed or fixed; say they weren't checked locally.
 - The answer's `summary` reads like `damdit summary`. `--pages` (default 20, at most 100) limits a slow dev build; pages left out are said so in the coverage.
 - A check is not saved, so `damdit occurrences` and `damdit finding` can't read it. When the user needs the exact elements, say so and suggest a project with a local address (`--target local`), whose audits keep every location.

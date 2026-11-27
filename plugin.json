@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "damdit",
-  "version": "27.0.1",
+  "version": "27.1.0",
   "description": "Run and explain Damdit website audits from your agent: what is wrong with a site, what to fix first, what changed since the last audit and whether a fix worked. Works with Damdit for Mac (damdit) and Damdit CLI (damdit-cli).",
   "author": {
     "name": "Damdit",

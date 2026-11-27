@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "damdit-cli": { "command": "npx", "args": ["-y", "damdit-cli", "mcp"] }
+  }
+}

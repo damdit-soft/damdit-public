@@ -8,3 +8,5 @@ A change to what the website serves is done only when a Damdit audit of the depl
 4. Report per issue: Resolved, Still detected, Inconclusive, plus anything New or Reappeared.
 
 Say "fixed" only for Resolved. Inconclusive means not verified. If the audit can't run, say the change is unverified and why. Never judge the result from the code alone.
+
+If `damdit-cli status` says `edition` `free`, or `compare` answers `licence_feature`, this is the free version: report what the newest audit shows for each rule you touched and call the change "unverified: comparing audits needs a Damdit licence or the 7-day trial", never "fixed".
