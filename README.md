@@ -8,7 +8,7 @@ Damdit audits a website in a real browser on your machine: accessibility, broken
 
 Website: [damdit.com/cli](https://damdit.com/cli/) · Docs: [docs.damdit.com/cli](https://docs.damdit.com/cli/overview/) · Setup per agent: [damdit.com/for](https://damdit.com/for/) · For AI systems: [damdit.com/llms.txt](https://damdit.com/llms.txt) · 90-second video: [youtube.com/watch?v=rRrmYHdr_as](https://www.youtube.com/watch?v=rRrmYHdr_as)
 
-Current version: Damdit CLI 27.1.0 (not released yet) [NEED: date].
+Current version: Damdit CLI 27.1.0, released 27 November 2026.
 
 ## Quick start
 
@@ -102,16 +102,16 @@ With Damdit CLI installed for Docker, the command is `damdit-cli` itself ([`exam
 
 Without a key the server runs as the free version, and it tells the agent so. To use the licensed features, the agent needs `DAMDIT_CI_KEY` in its environment.
 
-Where each agent keeps this. The steps on damdit.com/for were run on 25 November 2026 with the Docker launcher; with npm, they work with `npx -y damdit-cli mcp` in place of `damdit-cli mcp`. [NEED: run each row below with npx before release]
+Where each agent keeps this. The rows with npx were run with the npm package on 27 November 2026; Cursor's steps were run with the Docker launcher on 25 November 2026 (with npm, put `npx` and `-y damdit-cli mcp` in place of `damdit-cli` and `mcp`).
 
 | Agent | Add the server | Steps |
 |---|---|---|
 | Claude Code | `claude mcp add --transport stdio --scope user damdit-cli -- npx -y damdit-cli mcp` | [damdit.com/for/claude-code](https://damdit.com/for/claude-code/) |
 | Codex | `codex mcp add damdit-cli -- npx -y damdit-cli mcp` | [damdit.com/for/codex](https://damdit.com/for/codex/) |
-| Cursor | the block above in `~/.cursor/mcp.json` | [damdit.com/for/cursor](https://damdit.com/for/cursor/) |
+| Cursor | the Docker block above in `~/.cursor/mcp.json` | [damdit.com/for/cursor](https://damdit.com/for/cursor/) |
 | GitHub Copilot | the block above in `.mcp.json` | [damdit.com/for/copilot](https://damdit.com/for/copilot/) |
 | Hermes | `mcp_servers` in `~/.hermes/config.yaml` | [damdit.com/for/hermes](https://damdit.com/for/hermes/) |
-| Mistral Vibe | `vibe mcp add damdit-cli --transport stdio --command npx --arg -y --arg damdit-cli --arg mcp` | [damdit.com/for/mistral-vibe](https://damdit.com/for/mistral-vibe/) |
+| Mistral Vibe | `vibe mcp add damdit-cli --transport stdio --command npx --arg=-y --arg=damdit-cli --arg=mcp` | [damdit.com/for/mistral-vibe](https://damdit.com/for/mistral-vibe/) |
 | OpenClaw | `openclaw mcp set damdit-cli …` | [damdit.com/for/openclaw](https://damdit.com/for/openclaw/) |
 | OpenCode | `opencode mcp add damdit-cli --global -- npx -y damdit-cli mcp` | [damdit.com/for/opencode](https://damdit.com/for/opencode/) |
 
