@@ -8,24 +8,23 @@ Damdit audits a website in a real browser on your machine: accessibility, broken
 
 Website: [damdit.com/cli](https://damdit.com/cli/) · Docs: [docs.damdit.com/cli](https://docs.damdit.com/cli/overview/) · Setup per agent: [damdit.com/for](https://damdit.com/for/) · For AI systems: [damdit.com/llms.txt](https://damdit.com/llms.txt) · 90-second video: [youtube.com/watch?v=rRrmYHdr_as](https://www.youtube.com/watch?v=rRrmYHdr_as)
 
-Current version: Damdit CLI 27.1.0, released 27 November 2026.
+Current version: Damdit CLI 27.1.1, released 28 November 2026.
 
 ## Quick start
 
 With Node.js 22.13 or later, on macOS, Linux or Windows x64. No Docker, no account and no key:
 
 ```sh
-npx damdit-cli project create --name Example --production https://example.com/
-npx damdit-cli audit Example
+npx damdit-cli audit https://example.com/
 ```
 
-The first audit downloads Chromium, about 180 MB. Without a key this is the free version.
+The first audit of an address creates its project, named after the host (`example.com`), and the first audit on a computer downloads Chromium, about 180 MB. Without a key this is the free version.
 
 ### Free version and licence
 
 | | Free version, no account | With a licence or the 7-day trial |
 |---|---|---|
-| Pages in one audit | Up to 20 | Up to 500 |
+| Pages in one audit | Up to 20 | Up to 500 in a browser, and up to 5,000 addresses checked |
 | Issues with evidence, Coverage, Needs review | Yes | Yes |
 | Command line and MCP server | Yes | Yes |
 | Comparing audits: Resolved, New, Reappeared | No | Yes |
@@ -44,8 +43,7 @@ The Docker image gives every run the same environment, and it is the recommended
 ```sh
 curl -fsSL https://download.damdit.com/cli/install.sh | sh
 export DAMDIT_CI_KEY=…   # a key from damdit.com/account; without it, the free version
-damdit-cli project create --name Example --production https://example.com/
-damdit-cli audit Example
+damdit-cli audit https://example.com/
 ```
 
 ### What you get
@@ -189,7 +187,7 @@ For GitHub Actions, copy [`examples/github-actions/damdit.yml`](examples/github-
 
 ## On a server
 
-`damdit-cli serve` runs scheduled audits in the background and is the host your agents talk to: `damdit-cli schedule Example weekly`. Scheduled audits need a licence. On Windows, `serve` and `schedule` are not available yet; use Docker there. [Serve in the docs](https://docs.damdit.com/cli/serve/).
+`damdit-cli serve` runs scheduled audits in the background and is the host your agents talk to: `damdit-cli schedule example.com weekly`. Scheduled audits need a licence. On Windows, `serve` and `schedule` are not available yet; use Docker there. [Serve in the docs](https://docs.damdit.com/cli/serve/).
 
 ## Requirements, limits and price
 

@@ -11,7 +11,7 @@
       "name": "damdit",
       "source": "./",
       "description": "Run and explain Damdit website audits from your agent. Needs Damdit for Mac or Damdit CLI.",
-      "version": "27.1.0",
+      "version": "27.1.1",
       "author": {
         "name": "Damdit"
       },

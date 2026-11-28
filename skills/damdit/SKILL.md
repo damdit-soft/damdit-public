@@ -100,7 +100,7 @@ What to do:
 
 Run an audit only when the user asks for a new audit or fresh results. Each audit loads every page of the site. Otherwise read the latest audit and say when it ran (`audit.completedAt`).
 
-- If the site isn't in `damdit projects`, ask the user whether to add it. Create it with `damdit project create` only when they say so, with the addresses they give. The addresses the user gives authorize its audits: you can run `damdit audit` for it straight away, without an audit in the app (audits the user starts in the app still show **Review audit plan** and **Start Audit**). The answer's `firstAudit` says so. Don't invent a project.
+- If the site isn't in `damdit projects`, ask the user whether to add it. Create it with `damdit project create` only when they say so, with the addresses they give. With Damdit CLI 27.1.1 or later, when the user asks you to audit an address no project has, `damdit-cli audit https://…` creates the project (named after the host) and audits it in one step. The addresses the user gives authorize its audits: you can run `damdit audit` for it straight away, without an audit in the app (audits the user starts in the app still show **Review audit plan** and **Start Audit**). The answer's `firstAudit` says so. Don't invent a project.
 - A project can have up to three addresses: production, staging and local. `--target` chooses one; each keeps its own audits and history, and a project's `summary` always means the default target's current audit. Read another target's audit by its `runId`.
 - Damdit always runs the same Full Audit. There are no audit types or modules to choose.
 - A small site takes about a minute; a site with 100+ pages can take 10–30 minutes.
