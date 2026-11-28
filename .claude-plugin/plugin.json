@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "damdit",
   "version": "27.1.1",
-  "description": "Run and explain Damdit website audits from your agent: what is wrong with a site, what to fix first, what changed since the last audit and whether a fix worked. Works with Damdit for Mac (damdit) and Damdit CLI (damdit-cli).",
+  "description": "Website audits for your agent: Damdit renders the site in Chromium on your machine and returns each issue with the page, the element and the evidence, plus what it couldn't check. Damdit CLI is free up to 20 pages without an account (npx damdit-cli); a licence compares audits, so the agent can tell whether a fix worked. Also works with Damdit for Mac.",
   "author": {
     "name": "Damdit",
     "email": "support@damdit.com",
@@ -15,8 +15,11 @@
     "website audit",
     "seo",
     "accessibility",
-    "performance",
-    "security",
+    "broken links",
+    "security headers",
+    "mcp",
+    "claude code",
+    "codex",
     "ai readiness",
     "damdit"
   ]

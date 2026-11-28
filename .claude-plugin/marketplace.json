@@ -10,7 +10,7 @@
     {
       "name": "damdit",
       "source": "./",
-      "description": "Run and explain Damdit website audits from your agent. Needs Damdit for Mac or Damdit CLI.",
+      "description": "Run and explain Damdit website audits from your agent. Needs Damdit CLI (free up to 20 pages, no account: npx damdit-cli) or Damdit for Mac.",
       "version": "27.1.1",
       "author": {
         "name": "Damdit"

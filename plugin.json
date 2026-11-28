@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "damdit",
   "version": "27.1.1",
-  "description": "Run and explain Damdit website audits from your agent: what is wrong with a site, what to fix first, what changed since the last audit and whether a fix worked. Works with Damdit for Mac (damdit) and Damdit CLI (damdit-cli).",
+  "description": "Website audits for your agent: Damdit renders the site in Chromium on your machine and returns each issue with the page, the element and the evidence, plus what it couldn't check. Damdit CLI is free up to 20 pages without an account (npx damdit-cli); a licence compares audits, so the agent can tell whether a fix worked. Also works with Damdit for Mac.",
   "author": {
     "name": "Damdit",
     "email": "support@damdit.com",
@@ -15,8 +15,11 @@
     "website audit",
     "seo",
     "accessibility",
-    "performance",
-    "security",
+    "broken links",
+    "security headers",
+    "mcp",
+    "claude code",
+    "codex",
     "ai readiness",
     "damdit"
   ],
@@ -26,7 +29,7 @@
       "interface": {
         "displayName": "Damdit",
         "shortDescription": "Website audits with the evidence behind every issue",
-        "longDescription": "Runs Damdit's Full Audit of a website on your computer and explains the result: SEO, accessibility, performance, security and AI readiness, the evidence behind every issue, what could not be checked, and what changed since the last audit. Needs Damdit for Mac or Damdit CLI installed on the same computer.",
+        "longDescription": "Runs Damdit's Full Audit of a website on your computer and explains the result: SEO, accessibility, security and AI readiness, the evidence behind every issue, what could not be checked, and, with a licence, what changed since the last audit. Needs Damdit CLI (free up to 20 pages, no account: npx damdit-cli) or Damdit for Mac on the same computer.",
         "developerName": "Damdit",
         "category": "Developer Tools",
         "websiteURL": "https://damdit.com/cli/",
